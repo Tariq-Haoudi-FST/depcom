@@ -7,3 +7,5 @@ streamlit-aggrid
 python-docx
 xlsxwriter
 streamlit-option-menu
+plotly
+kaleido
