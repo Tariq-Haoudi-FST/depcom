@@ -31,7 +31,7 @@ def create_sales_team_report(df, sales_teams):
         # Regrouper les données
         grouped_df = (
             filtered_df
-            .groupby(['OPPORTUNITY TYPE', 'PREVIOUS PIPELINE STAGE'])
+            .groupby(['OPPORTUNITY TYPE', 'PIPELINE STAGE'])
             .size()
             .reset_index(name='COUNT')
         )
@@ -42,7 +42,7 @@ def create_sales_team_report(df, sales_teams):
         # Ajouter une ligne pour le total général
         total_row = pd.DataFrame({
             'OPPORTUNITY TYPE': ['TOTAL'],
-            'PREVIOUS PIPELINE STAGE': [''],
+            'PIPELINE STAGE': [''],
             'COUNT': [grouped_df['COUNT'].sum()],
             'SUM': [grouped_df['SUM'].sum()]
         })
@@ -992,7 +992,7 @@ if selected == "الصفحة 4":
         st.write("Noms des colonnes dans le fichier :", df.columns.tolist())
         
         # Vérifier si les colonnes nécessaires existent
-        required_columns = ['SALES TEAM', 'OPPORTUNITY TYPE', 'PREVIOUS PIPELINE STAGE']
+        required_columns = ['SALES TEAM', 'OPPORTUNITY TYPE', 'PIPELINE STAGE']
         missing_columns = [col for col in required_columns if col not in df.columns]
         
         if missing_columns:
@@ -1001,7 +1001,7 @@ if selected == "الصفحة 4":
             # Nettoyer les colonnes spécifiques
             df['SALES TEAM'] = df['SALES TEAM'].str.strip().str.upper()
             df['OPPORTUNITY TYPE'] = df['OPPORTUNITY TYPE'].str.strip().str.upper()
-            df['PREVIOUS PIPELINE STAGE'] = df['PREVIOUS PIPELINE STAGE'].str.strip().str.upper()
+            df['PIPELINE STAGE'] = df['PIPELINE STAGE'].str.strip().str.upper()
             
             # Afficher les données pour une équipe sélectionnée
             sales_teams = df['SALES TEAM'].unique()
@@ -1014,7 +1014,7 @@ if selected == "الصفحة 4":
             # Regrouper les données
             grouped_df = (
                 filtered_df
-                .groupby(['OPPORTUNITY TYPE', 'PREVIOUS PIPELINE STAGE'])
+                .groupby(['OPPORTUNITY TYPE', 'PIPELINE STAGE'])
                 .size()
                 .reset_index(name='COUNT')  # Ajouter une colonne "COUNT"
             )
@@ -1025,7 +1025,7 @@ if selected == "الصفحة 4":
             # Ajouter une ligne pour le total général
             total_general = pd.DataFrame({
                 'OPPORTUNITY TYPE': ['TOTAL'],
-                'PREVIOUS PIPELINE STAGE': [''],
+                'PIPELINE STAGE': [''],
                 'COUNT': [grouped_df['COUNT'].sum()],
                 'SUM': [grouped_df['SUM'].sum()]
             })
@@ -1052,7 +1052,7 @@ if selected == "الصفحة 4":
                     team_df = df[df['SALES TEAM'] == team]
                     grouped_team_df = (
                         team_df
-                        .groupby(['OPPORTUNITY TYPE', 'PREVIOUS PIPELINE STAGE'])
+                        .groupby(['OPPORTUNITY TYPE', 'PIPELINE STAGE'])
                         .size()
                         .reset_index(name='COUNT')
          
@@ -1061,7 +1061,7 @@ if selected == "الصفحة 4":
                     grouped_team_df['SUM'] = grouped_team_df.groupby('OPPORTUNITY TYPE')['COUNT'].transform('sum')
                     total_row = pd.DataFrame({
                         'OPPORTUNITY TYPE': ['TOTAL'],
-                        'PREVIOUS PIPELINE STAGE': [''],
+                        'PIPELINE STAGE': [''],
                         'COUNT': [grouped_team_df['COUNT'].sum()],
                         'SUM': [grouped_team_df['SUM'].sum()]
                     })
@@ -1085,3 +1085,4 @@ if selected == "الصفحة 4":
     # Bouton pour télécharger le rapport
     with open('rapport_pipeline_teams.docx', 'rb') as f:
         st.download_button('Télécharger le Rapport des Équipes Commerciales', f, 'rapport_pipeline_teams.docx')
+
